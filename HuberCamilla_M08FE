@@ -1,0 +1,54 @@
+//Trainers/enrollees
+//Camilla Huber
+//Program when user enters employee names to compare salary average 
+
+def main():
+    names = [5]: John Doe, Jane Doe, Mac Moore, Betty Frump, Gomez Addams
+    salaries = [5]: 55000,53000,60000,40000,70000 
+    sentinel = "DONE"  # Sentinel value to end input
+
+    # Input loop
+    while True:
+        name = input("Enter employee name (or 'DONE' to finish): ")
+        if name.upper() == sentinel:
+            break
+        
+        salary_input = input(f"Enter salary for {name} (in thousands, e.g., 36.5 for 36,510): ")
+        try:
+            salary = float(salary_input)
+            # Ensure salary is within reasonable bounds
+            if salary < 0:
+                raise ValueError("Salary must be positive.")
+            names.append(name)
+            salaries.append(salary)
+        except ValueError as e:
+            print(f"Invalid input: {e}. Please enter the salary again.")
+    
+    if not salaries:
+        print("No employee data was entered.")
+        return
+
+    # Calculate the average salary
+    average_salary = sum(salaries) / len(salaries)
+    
+    # Find employees within $5,000 of the average salary
+    range_low = average_salary - 5.0
+    range_high = average_salary + 5.0
+    within_range = [(names[i], salaries[i]) for i in range(len(salaries)) if range_low <= salaries[i] <= range_high]
+
+    # Display results
+    print("\nNames and Salaries of All Employees:")
+    for name, salary in zip(names, salaries):
+        print(f"{name}: ${salary * 1000:.2f}")
+
+    print(f"\nAverage Salary: ${average_salary * 1000:.2f}")
+
+    print("\nEmployees with salaries within $5,000 of the average:")
+    if within_range:
+        for name, salary in within_range:
+            print(f"{name}: ${salary * 1000:.2f}")
+    else:
+        print("No employees have salaries within $5,000 of the average.")
+
+if __name__ == "__main__":
+    main()
